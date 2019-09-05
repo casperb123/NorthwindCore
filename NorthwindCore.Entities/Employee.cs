@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -16,7 +16,7 @@ namespace NorthwindCore.Entities
         public Employee()
         {
             EmployeeTerritories = new HashSet<EmployeeTerritory>();
-            employments = new ObservableHashSet<Employment>();
+            employments = new ObservableCollection<Employment>();
             InverseReportsToNavigation = new HashSet<Employee>();
             Orders = new HashSet<Order>();
         }

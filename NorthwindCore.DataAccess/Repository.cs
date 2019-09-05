@@ -17,13 +17,13 @@ namespace NorthwindCore.DataAccess
             return context.Employees.Include(e => e.Employments).ToList();
         }
 
-        //public async IAsyncEnumerable<Employee> GetEmployeesAsync()
-        //{
-        //    await foreach (Employee employee in context.Employees.Include(e => e.Employments).AsAsyncEnumerable())
-        //    {
-        //        yield return employee;
-        //    }
-        //}
+        public async IAsyncEnumerable<Employee> GetEmployeesAsync()
+        {
+            await foreach (Employee employee in context.Employees.Include(e => e.Employments).AsAsyncEnumerable())
+            {
+                yield return employee;
+            }
+        }
 
         public void Update(Employee employee)
         {

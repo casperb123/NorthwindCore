@@ -2,18 +2,20 @@
 using NorthwindCore.Entities;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace NorthwindCore.Gui.Desktop.ViewModels
 {
     public class HrUserControlViewModel : INotifyPropertyChanged
     {
-        private List<Employee> employees;
+        private ObservableCollection<Employee> employees;
         private Employee selectedEmployee;
         private Employment selectedEmployment;
 
-        public List<Employee> Employees
+        public ObservableCollection<Employee> Employees
         {
             get { return employees; }
             set
@@ -24,6 +26,7 @@ namespace NorthwindCore.Gui.Desktop.ViewModels
                 }
 
                 employees = value;
+                OnPropertyChanged(nameof(Employees));
             }
         }
 
@@ -54,8 +57,22 @@ namespace NorthwindCore.Gui.Desktop.ViewModels
 
         public HrUserControlViewModel()
         {
+            //Repository repository = new Repository();
+            //employees = repository.GetEmployees();
+            Task.Factory.StartNew(() => GetEmployees());
+        }
+
+        private async void GetEmployees()
+        {
+            Employees = new ObservableCollection<Employee>();
             Repository repository = new Repository();
-            employees = repository.GetEmployees();
+            await foreach (Employee employee in repository.GetEmployeesAsync())
+            {
+                App.Current.Dispatcher.Invoke(() =>
+                {
+                    Employees.Add(employee);
+                });
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
