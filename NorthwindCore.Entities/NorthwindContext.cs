@@ -61,7 +61,7 @@ namespace NorthwindCore.Entities
             {
                 entity.HasNoKey();
 
-                entity.ToTable("Alphabetical list of products");
+                entity.ToView("Alphabetical list of products");
 
                 entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
 
@@ -102,7 +102,7 @@ namespace NorthwindCore.Entities
             {
                 entity.HasNoKey();
 
-                entity.ToTable("Category Sales for 1997");
+                entity.ToView("Category Sales for 1997");
 
                 entity.Property(e => e.CategoryName)
                     .IsRequired()
@@ -115,7 +115,7 @@ namespace NorthwindCore.Entities
             {
                 entity.HasNoKey();
 
-                entity.ToTable("Current Product List");
+                entity.ToView("Current Product List");
 
                 entity.Property(e => e.ProductId)
                     .HasColumnName("ProductID")
@@ -172,7 +172,7 @@ namespace NorthwindCore.Entities
             {
                 entity.HasNoKey();
 
-                entity.ToTable("Customer and Suppliers by City");
+                entity.ToView("Customer and Suppliers by City");
 
                 entity.Property(e => e.City).HasMaxLength(15);
 
@@ -191,7 +191,7 @@ namespace NorthwindCore.Entities
             modelBuilder.Entity<CustomerCustomerDemo>(entity =>
             {
                 entity.HasKey(e => new { e.CustomerId, e.CustomerTypeId })
-                    .ForSqlServerIsClustered(false);
+                    .IsClustered(false);
 
                 entity.ToTable("CustomerCustomerDemo");
 
@@ -221,7 +221,7 @@ namespace NorthwindCore.Entities
             modelBuilder.Entity<CustomerDemographic>(entity =>
             {
                 entity.HasKey(e => e.CustomerTypeId)
-                    .ForSqlServerIsClustered(false);
+                    .IsClustered(false);
 
                 entity.Property(e => e.CustomerTypeId)
                     .HasColumnName("CustomerTypeID")
@@ -288,7 +288,7 @@ namespace NorthwindCore.Entities
             modelBuilder.Entity<EmployeeTerritory>(entity =>
             {
                 entity.HasKey(e => new { e.EmployeeId, e.TerritoryId })
-                    .ForSqlServerIsClustered(false);
+                    .IsClustered(false);
 
                 entity.Property(e => e.EmployeeId).HasColumnName("EmployeeID");
 
@@ -327,6 +327,8 @@ namespace NorthwindCore.Entities
             modelBuilder.Entity<Invoice>(entity =>
             {
                 entity.HasNoKey();
+
+                entity.ToView("Invoices");
 
                 entity.Property(e => e.Address).HasMaxLength(60);
 
@@ -493,7 +495,7 @@ namespace NorthwindCore.Entities
             {
                 entity.HasNoKey();
 
-                entity.ToTable("Order Details Extended");
+                entity.ToView("Order Details Extended");
 
                 entity.Property(e => e.ExtendedPrice).HasColumnType("money");
 
@@ -512,7 +514,7 @@ namespace NorthwindCore.Entities
             {
                 entity.HasNoKey();
 
-                entity.ToTable("Order Subtotals");
+                entity.ToView("Order Subtotals");
 
                 entity.Property(e => e.OrderId).HasColumnName("OrderID");
 
@@ -523,7 +525,7 @@ namespace NorthwindCore.Entities
             {
                 entity.HasNoKey();
 
-                entity.ToTable("Orders Qry");
+                entity.ToView("Orders Qry");
 
                 entity.Property(e => e.Address).HasMaxLength(60);
 
@@ -617,7 +619,7 @@ namespace NorthwindCore.Entities
             {
                 entity.HasNoKey();
 
-                entity.ToTable("Product Sales for 1997");
+                entity.ToView("Product Sales for 1997");
 
                 entity.Property(e => e.CategoryName)
                     .IsRequired()
@@ -634,7 +636,7 @@ namespace NorthwindCore.Entities
             {
                 entity.HasNoKey();
 
-                entity.ToTable("Products Above Average Price");
+                entity.ToView("Products Above Average Price");
 
                 entity.Property(e => e.ProductName)
                     .IsRequired()
@@ -647,7 +649,7 @@ namespace NorthwindCore.Entities
             {
                 entity.HasNoKey();
 
-                entity.ToTable("Products by Category");
+                entity.ToView("Products by Category");
 
                 entity.Property(e => e.CategoryName)
                     .IsRequired()
@@ -664,7 +666,7 @@ namespace NorthwindCore.Entities
             {
                 entity.HasNoKey();
 
-                entity.ToTable("Quarterly Orders");
+                entity.ToView("Quarterly Orders");
 
                 entity.Property(e => e.City).HasMaxLength(15);
 
@@ -681,7 +683,7 @@ namespace NorthwindCore.Entities
             modelBuilder.Entity<Region>(entity =>
             {
                 entity.HasKey(e => e.RegionId)
-                    .ForSqlServerIsClustered(false);
+                    .IsClustered(false);
 
                 entity.ToTable("Region");
 
@@ -699,7 +701,7 @@ namespace NorthwindCore.Entities
             {
                 entity.HasNoKey();
 
-                entity.ToTable("Sales by Category");
+                entity.ToView("Sales by Category");
 
                 entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
 
@@ -718,7 +720,7 @@ namespace NorthwindCore.Entities
             {
                 entity.HasNoKey();
 
-                entity.ToTable("Sales Totals by Amount");
+                entity.ToView("Sales Totals by Amount");
 
                 entity.Property(e => e.CompanyName)
                     .IsRequired()
@@ -746,7 +748,7 @@ namespace NorthwindCore.Entities
             {
                 entity.HasNoKey();
 
-                entity.ToTable("Summary of Sales by Quarter");
+                entity.ToView("Summary of Sales by Quarter");
 
                 entity.Property(e => e.OrderId).HasColumnName("OrderID");
 
@@ -759,7 +761,7 @@ namespace NorthwindCore.Entities
             {
                 entity.HasNoKey();
 
-                entity.ToTable("Summary of Sales by Year");
+                entity.ToView("Summary of Sales by Year");
 
                 entity.Property(e => e.OrderId).HasColumnName("OrderID");
 
@@ -806,7 +808,7 @@ namespace NorthwindCore.Entities
             modelBuilder.Entity<Territory>(entity =>
             {
                 entity.HasKey(e => e.TerritoryId)
-                    .ForSqlServerIsClustered(false);
+                    .IsClustered(false);
 
                 entity.Property(e => e.TerritoryId)
                     .HasColumnName("TerritoryID")
