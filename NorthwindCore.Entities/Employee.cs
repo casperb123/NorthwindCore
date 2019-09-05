@@ -11,7 +11,6 @@ namespace NorthwindCore.Entities
     public partial class Employee : INotifyPropertyChanged
     {
         private ICollection<Employment> employments;
-        private string initials;
 
         public Employee()
         {

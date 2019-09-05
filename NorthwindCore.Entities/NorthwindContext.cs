@@ -257,10 +257,6 @@ namespace NorthwindCore.Entities
 
                 entity.Property(e => e.HomePhone).HasMaxLength(24);
 
-                entity.Property(e => e.Initials)
-                    .IsRequired()
-                    .HasMaxLength(4);
-
                 entity.Property(e => e.LastName)
                     .IsRequired()
                     .HasMaxLength(20);
