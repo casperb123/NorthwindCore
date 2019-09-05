@@ -1,0 +1,316 @@
+﻿<UserControl x:Class="NorthwindCore.Gui.Desktop.CustomControls.HrUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NorthwindCore.Gui.Desktop.CustomControls"
+             mc:Ignorable="d"
+             d:DesignHeight="620"
+             d:DesignWidth="1000">
+    <Grid Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1.5*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Column="0"
+                    Grid.Row="0"
+                    Margin="0,0,0,10">
+            <Label Content="Filtrer"
+                   HorizontalAlignment="Center"
+                   FontWeight="Bold" />
+
+            <StackPanel>
+                <Label Content="Navn / Initialer:"
+                       HorizontalAlignment="Center" />
+                <TextBox x:Name="textBoxSearchName"
+                         TextChanged="TextBoxSearch_TextChanged" />
+
+                <Label Content="Ansættelsestype:"
+                       HorizontalAlignment="Center" />
+                <TextBox x:Name="textBoxSearchTitle"
+                         TextChanged="TextBoxSearch_TextChanged" />
+
+                <Label Content="Land:"
+                       HorizontalAlignment="Center" />
+                <TextBox x:Name="textBoxSearchCountry"
+                         TextChanged="TextBoxSearch_TextChanged" />
+
+                <Label Content="Region:"
+                       HorizontalAlignment="Center" />
+                <TextBox x:Name="textBoxSearchRegion"
+                         TextChanged="TextBoxSearch_TextChanged" />
+            </StackPanel>
+        </StackPanel>
+
+        <DataGrid Grid.Column="0"
+                  Grid.Row="1"
+                  x:Name="dataGridEmployees"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  SelectionMode="Single"
+                  ItemsSource="{Binding Path=Employees}"
+                  SelectionChanged="DataGridEmployee_SelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Fornavn"
+                                    Width="1*"
+                                    Binding="{Binding FirstName}" />
+                <DataGridTextColumn Header="Efternavn"
+                                    Width="1*"
+                                    Binding="{Binding LastName}" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Grid Grid.Column="1"
+              Grid.Row="0"
+              Grid.RowSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35" />
+                <RowDefinition Height="35" />
+                <RowDefinition Height="35" />
+                <RowDefinition Height="35" />
+                <RowDefinition Height="35" />
+                <RowDefinition Height="35" />
+                <RowDefinition Height="35" />
+                <RowDefinition Height="45" />
+                <RowDefinition Height="35" />
+                <RowDefinition Height="35" />
+                <RowDefinition Height="35" />
+                <RowDefinition Height="35" />
+                <RowDefinition Height="35" />
+                <RowDefinition Height="100" />
+                <RowDefinition Height="40" />
+            </Grid.RowDefinitions>
+            <Grid.Resources>
+                <Style TargetType="{x:Type TextBox}">
+                    <Setter Property="Margin"
+                            Value="5" />
+                </Style>
+                <Style TargetType="{x:Type DatePicker}">
+                    <Setter Property="Margin"
+                            Value="5" />
+                </Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Margin"
+                            Value="5" />
+                </Style>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Setter Property="Margin"
+                            Value="5" />
+                </Style>
+                <Style TargetType="{x:Type Label}">
+                    <Setter Property="VerticalContentAlignment"
+                            Value="Center" />
+                </Style>
+            </Grid.Resources>
+
+            <Label Grid.Column="0"
+                   Grid.Row="0"
+                   Content="Fornavn:" />
+            <TextBox Grid.Column="1"
+                     Grid.Row="0"
+                     x:Name="textBoxFirstName"
+                     Text="{Binding Path=SelectedEmployee.FirstName, UpdateSourceTrigger=PropertyChanged}"
+                     TextChanged="TextBox_TextChanged" />
+            <Label Grid.Column="0"
+                   Grid.Row="1"
+                   Content="Efternavn:" />
+            <TextBox Grid.Column="1"
+                     Grid.Row="1"
+                     x:Name="textBoxLastName"
+                     Text="{Binding Path=SelectedEmployee.LastName, UpdateSourceTrigger=PropertyChanged}"
+                     TextChanged="TextBox_TextChanged" />
+            <Label Grid.Column="0"
+                   Grid.Row="2"
+                   Content="Chef:" />
+            <ComboBox Grid.Column="1"
+                      Grid.Row="2"
+                      x:Name="comboBoxReportsTo"
+                      SelectedItem="{Binding Path=SelectedEmployee.ReportsToNavigation}"
+                      DisplayMemberPath="FullNameWithInitials" />
+            <Label Grid.Column="0"
+                   Grid.Row="3"
+                   Content="Initialer:" />
+            <TextBox Grid.Column="1"
+                     Grid.Row="3"
+                     x:Name="textBoxInitials"
+                     IsReadOnly="True"
+                     Text="{Binding Path=SelectedEmployee.Initials, Mode=OneWay}" />
+            <Label Grid.Column="0"
+                   Grid.Row="4"
+                   Content="Titel:" />
+            <TextBox Grid.Column="1"
+                     Grid.Row="4"
+                     x:Name="textBoxTitle"
+                     Text="{Binding Path=SelectedEmployee.Title}" />
+            <Label Grid.Column="0"
+                   Grid.Row="5"
+                   Content="Høfligheds Titel:" />
+            <TextBox Grid.Column="1"
+                     Grid.Row="5"
+                     x:Name="textBoxTitleOfCourtesy"
+                     Text="{Binding Path=SelectedEmployee.TitleOfCourtesy}" />
+            <Label Grid.Column="0"
+                   Grid.Row="6"
+                   Content="Fødselsdato:" />
+            <DatePicker Grid.Column="1"
+                        Grid.Row="6"
+                        x:Name="datePickerBirthDate"
+                        SelectedDate="{Binding Path=SelectedEmployee.BirthDate}" />
+            <Label Grid.Column="0"
+                   Grid.Row="7"
+                   Content="Adresse:" />
+            <TextBox Grid.Column="1"
+                     Grid.Row="7"
+                     x:Name="textBoxAddress"
+                     Text="{Binding Path=SelectedEmployee.Address}" />
+            <Label Grid.Column="0"
+                   Grid.Row="8"
+                   Content="By:" />
+            <TextBox Grid.Column="1"
+                     Grid.Row="8"
+                     x:Name="textBoxCity"
+                     Text="{Binding Path=SelectedEmployee.City}" />
+            <Label Grid.Column="0"
+                   Grid.Row="9"
+                   Content="Region:" />
+            <TextBox Grid.Column="1"
+                     Grid.Row="9"
+                     x:Name="textBoxRegion"
+                     Text="{Binding Path=SelectedEmployee.Region}" />
+            <Label Grid.Column="0"
+                   Grid.Row="10"
+                   Content="Postnummer:" />
+            <TextBox Grid.Column="1"
+                     Grid.Row="10"
+                     x:Name="textBoxPostalCode"
+                     Text="{Binding Path=SelectedEmployee.PostalCode}" />
+            <Label Grid.Column="0"
+                   Grid.Row="11"
+                   Content="Land:" />
+            <TextBox Grid.Column="1"
+                     Grid.Row="11"
+                     x:Name="textBoxCountry"
+                     Text="{Binding Path=SelectedEmployee.Country}" />
+            <Label Grid.Column="0"
+                   Grid.Row="12"
+                   Content="Mobilnummer:" />
+            <TextBox Grid.Column="1"
+                     Grid.Row="12"
+                     x:Name="textBoxHomePhone"
+                     Text="{Binding Path=SelectedEmployee.HomePhone}" />
+            <Label Grid.Column="0"
+                   Grid.Row="13"
+                   Content="Noter:" />
+            <TextBox Grid.Column="1"
+                     Grid.Row="13"
+                     x:Name="textBoxNotes"
+                     TextWrapping="Wrap"
+                     VerticalScrollBarVisibility="Auto"
+                     Text="{Binding Path=SelectedEmployee.Notes}" />
+
+            <Button Grid.Column="1"
+                    Grid.Row="14"
+                    x:Name="buttonEmployeeUpdate"
+                    Content="Opdatér"
+                    Click="ButtonEmployeeUpdate_Click" />
+        </Grid>
+
+        <DataGrid x:Name="dataGridEmployments"
+                  Grid.Column="2"
+                  Grid.Row="0"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  SelectionMode="Single"
+                  ItemsSource="{Binding Path=SelectedEmployee.Employments, UpdateSourceTrigger=PropertyChanged}"
+                  SelectionChanged="DataGridEmployments_SelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Titel"
+                                    Width="1*"
+                                    Binding="{Binding Title, UpdateSourceTrigger=PropertyChanged}" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Grid Grid.Column="2"
+              Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35" />
+                <RowDefinition Height="35" />
+                <RowDefinition Height="35" />
+                <RowDefinition Height="35" />
+            </Grid.RowDefinitions>
+            <Grid.Resources>
+                <Style TargetType="{x:Type TextBox}">
+                    <Setter Property="Margin"
+                            Value="5" />
+                </Style>
+                <Style TargetType="{x:Type DatePicker}">
+                    <Setter Property="Margin"
+                            Value="5" />
+                </Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Margin"
+                            Value="5" />
+                </Style>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Setter Property="Margin"
+                            Value="5" />
+                </Style>
+                <Style TargetType="{x:Type Label}">
+                    <Setter Property="VerticalContentAlignment"
+                            Value="Center" />
+                </Style>
+            </Grid.Resources>
+
+            <Label Grid.Column="0"
+                   Grid.Row="0"
+                   Content="Titel:" />
+            <TextBox Grid.Column="1"
+                     Grid.Row="0"
+                     x:Name="textBoxEmploymentTitle"
+                     Text="{Binding Path=SelectedEmployment.Title, UpdateSourceTrigger=PropertyChanged}" />
+            <Label Grid.Column="0"
+                   Grid.Row="1"
+                   Content="Ansættelsesdato:" />
+            <DatePicker Grid.Column="1"
+                        Grid.Row="1"
+                        x:Name="datePickerEmploymentHireDate"
+                        SelectedDate="{Binding Path=SelectedEmployment.HireDate, UpdateSourceTrigger=PropertyChanged}" />
+            <Label Grid.Column="0"
+                   Grid.Row="2"
+                   Content="Fyringsdato:" />
+            <DatePicker Grid.Column="1"
+                        Grid.Row="2"
+                        x:Name="datePickerEmploymentLeaveDate"
+                        SelectedDate="{Binding Path=SelectedEmployment.LeaveDate, UpdateSourceTrigger=PropertyChanged}" />
+
+            <Button Grid.Column="0"
+                    Grid.Row="3"
+                    x:Name="buttonEmploymentAdd"
+                    Content="Tilføj"
+                    IsEnabled="False"
+                    Click="ButtonEmploymentAdd_Click"
+                    Height="26"
+                    Margin="5,5,5,0"
+                    VerticalAlignment="Top" />
+            <Button Grid.Column="1"
+                    Grid.Row="3"
+                    x:Name="buttonEmploymentUpdate"
+                    Content="Opdatér"
+                    Click="ButtonEmploymentUpdate_Click" />
+        </Grid>
+    </Grid>
+</UserControl>
