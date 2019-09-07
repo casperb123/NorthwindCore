@@ -1,10 +1,8 @@
 ﻿using NorthwindCore.DataAccess;
 using NorthwindCore.Entities;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NorthwindCore.Gui.Desktop.ViewModels
@@ -101,6 +99,13 @@ namespace NorthwindCore.Gui.Desktop.ViewModels
         {
             Repository repository = new Repository();
             repository.Insert(employment, employee);
+        }
+
+        public void Delete(Employment employment)
+        {
+            Repository repository = new Repository();
+            repository.Delete(employment);
+            SelectedEmployee.Employments.Remove(employment);
         }
     }
 }

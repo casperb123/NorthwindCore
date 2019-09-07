@@ -238,6 +238,14 @@
                                     Width="1*"
                                     Binding="{Binding Title, UpdateSourceTrigger=PropertyChanged}" />
             </DataGrid.Columns>
+            <DataGrid.ContextMenu>
+                <ContextMenu x:Name="contextMenuEmployments"
+                             Opened="ContextMenuEmployments_Opened">
+                    <MenuItem x:Name="menuItemEmploymentsDelete"
+                              Header="Slét"
+                              Click="MenuItemEmploymentsDelete_Click"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
         </DataGrid>
 
         <Grid Grid.Column="2"

@@ -168,5 +168,27 @@ namespace NorthwindCore.Gui.Desktop.CustomControls
                 dataGridEmployments.Focus();
             }
         }
+
+        private void ContextMenuEmployments_Opened(object sender, RoutedEventArgs e)
+        {
+            if (hrUserControlViewModel.SelectedEmployment is null)
+            {
+                menuItemEmploymentsDelete.IsEnabled = false;
+            }
+            else
+            {
+                menuItemEmploymentsDelete.IsEnabled = true;
+            }
+        }
+
+        private void MenuItemEmploymentsDelete_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Er du sikker?", "Slet ansættelsesforhold", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                hrUserControlViewModel.Delete(hrUserControlViewModel.SelectedEmployment);
+            }
+        }
     }
 }

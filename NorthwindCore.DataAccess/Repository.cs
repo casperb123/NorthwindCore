@@ -43,5 +43,14 @@ namespace NorthwindCore.DataAccess
             context.Employments.Add(employment);
             context.SaveChanges();
         }
+
+        public void Delete(Employment employment)
+        {
+            Employment employmentOnDb = context.Employments.FirstOrDefault(e => e.Id == employment.Id);
+            Employee employee = context.Employees.FirstOrDefault(e => e.EmployeeId == employmentOnDb.EmployeeId);
+            employee.Employments.Remove(employmentOnDb);
+            context.Employments.Remove(employmentOnDb);
+            context.SaveChanges();
+        }
     }
 }
