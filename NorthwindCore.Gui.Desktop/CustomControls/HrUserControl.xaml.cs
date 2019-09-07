@@ -183,7 +183,7 @@ namespace NorthwindCore.Gui.Desktop.CustomControls
 
         private void MenuItemEmploymentsDelete_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("Er du sikker?", "Slet ansættelsesforhold", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            MessageBoxResult result = MessageBox.Show("Er du sikker på at du vil slette ansættelsesforholdet?", "Slet ansættelsesforhold", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
             if (result == MessageBoxResult.Yes)
             {
