@@ -35,7 +35,15 @@ namespace NorthwindCore.Gui.Desktop.CustomControls
 
         private void ButtonEmployeeUpdate_Click(object sender, RoutedEventArgs e)
         {
-            hrUserControlViewModel.Update(hrUserControlViewModel.SelectedEmployee);
+            if (!hrUserControlViewModel.IsPhoneNumberValid(hrUserControlViewModel.SelectedEmployee))
+            {
+                MessageBox.Show("Telefon nummeret er et forkert format", "Northwind", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            hrUserControlViewModel.SelectedEmployee.Notes = hrUserControlViewModel.ValidateNotes(hrUserControlViewModel.SelectedEmployee);
+            textBoxNotes.Text = hrUserControlViewModel.SelectedEmployee.Notes;
+            hrUserControlViewModel.UpdateEmployee(hrUserControlViewModel.SelectedEmployee);
 
             buttonEmployeeUpdate.Foreground = Brushes.Green;
             buttonEmployeeUpdate.Content = "Opdateret!";
@@ -130,7 +138,7 @@ namespace NorthwindCore.Gui.Desktop.CustomControls
                 return;
             }
 
-            hrUserControlViewModel.Update(hrUserControlViewModel.SelectedEmployment);
+            hrUserControlViewModel.UpdateEmployment(hrUserControlViewModel.SelectedEmployment);
 
             buttonEmploymentUpdate.Content = "Opdateret!";
             buttonEmploymentUpdate.Foreground = Brushes.Green;
@@ -163,7 +171,7 @@ namespace NorthwindCore.Gui.Desktop.CustomControls
                 }
 
                 hrUserControlViewModel.SelectedEmployee.Employments.Add(addEmployment.addEmploymentViewModel.Employment);
-                hrUserControlViewModel.Insert(addEmployment.addEmploymentViewModel.Employment, hrUserControlViewModel.SelectedEmployee);
+                hrUserControlViewModel.AddEmployment(addEmployment.addEmploymentViewModel.Employment, hrUserControlViewModel.SelectedEmployee);
                 dataGridEmployments.SelectedItem = addEmployment.addEmploymentViewModel.Employment;
                 dataGridEmployments.Focus();
             }
@@ -187,7 +195,7 @@ namespace NorthwindCore.Gui.Desktop.CustomControls
 
             if (result == MessageBoxResult.Yes)
             {
-                hrUserControlViewModel.Delete(hrUserControlViewModel.SelectedEmployment);
+                hrUserControlViewModel.DeleteEmployment(hrUserControlViewModel.SelectedEmployment);
             }
         }
     }

@@ -10,6 +10,9 @@ namespace NorthwindCore.Gui.Desktop.ViewModels
     {
         private Employment employment;
 
+        /// <summary>
+        /// The selected employment
+        /// </summary>
         public Employment Employment
         {
             get { return employment; }

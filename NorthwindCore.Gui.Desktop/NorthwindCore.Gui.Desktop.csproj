@@ -16,11 +16,13 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3-beta1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\NorthwindCore.DataAccess\NorthwindCore.DataAccess.csproj" />
     <ProjectReference Include="..\NorthwindCore.Entities\NorthwindCore.Entities.csproj" />
+    <ProjectReference Include="..\NorthwindCore.Services\NorthwindCore.Services.csproj" />
   </ItemGroup>
 
 </Project>
