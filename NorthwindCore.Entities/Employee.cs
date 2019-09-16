@@ -170,5 +170,10 @@ namespace NorthwindCore.Entities
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));
             }
         }
+
+        public override string ToString()
+        {
+            return $"{FirstName} {LastName}";
+        }
     }
 }
