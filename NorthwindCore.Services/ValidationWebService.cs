@@ -12,6 +12,7 @@ namespace NorthwindCore.Services
     {
         private readonly string validatePhoneNumberApi = "http://apilayer.net/api/validate?access_key=723a66f45e11a23acbcf5a0c71257b38";
         private readonly string validateNotesApi = "https://www.purgomalum.com/service/json";
+        private readonly string openExchangeRatesApi = "https://openexchangerates.org/api/latest.json?app_id=59999de6333c428ebcd5071ba5883aa1&base=USD";
 
         internal async Task<string> GetJson(string url)
         {
@@ -48,6 +49,18 @@ namespace NorthwindCore.Services
             return JsonConvert.DeserializeObject<ValidationNotes>(GetJson(url).Result).result;
         }
 
+        public OpenExchange GetRates()
+        {
+            return JsonConvert.DeserializeObject<OpenExchange>(GetJson(openExchangeRatesApi).Result);
+        }
+
+        public double GetPrice(string currency, decimal price)
+        {
+            OpenExchange openExchange = GetRates();
+            double newPrice = decimal.ToDouble(price) * openExchange.rates[currency];
+            return newPrice;
+        }
+
         public class ValidationPhoneNumber
         {
             public bool valid { get; set; }
@@ -66,6 +79,11 @@ namespace NorthwindCore.Services
         public class ValidationNotes
         {
             public string result { get; set; }
+        }
+
+        public class OpenExchange
+        {
+            public Dictionary<string, double> rates { get; set; }
         }
     }
 }

@@ -22,6 +22,13 @@
         <Label Content="Ordrer"
                FontWeight="Bold"
                HorizontalContentAlignment="Center" />
+        <StackPanel HorizontalAlignment="Right"
+                    Orientation="Horizontal">
+            <Label Content="Valuta:" />
+            <ComboBox x:Name="comboBoxCurrency"
+                      Width="60"
+                      SelectionChanged="ComboBoxCurrency_SelectionChanged"/>
+        </StackPanel>
         <DataGrid x:Name="dataGridOrders"
                   Grid.Row="1"
                   AutoGenerateColumns="False"
@@ -133,7 +140,7 @@
                      Text="{Binding Path=SelectedOrder.ShipCountry}" />
             <Label Content="Total Pris:"
                    Grid.Row="9" />
-            <TextBox x:Name="labelTotalPrice"
+            <TextBox x:Name="textBoxTotalPrice"
                      IsReadOnly="True"
                      Grid.Column="1"
                      Grid.Row="9"
@@ -143,7 +150,7 @@
         <Label Content="Ordrer Detaljer"
                FontWeight="Bold"
                HorizontalContentAlignment="Center"
-               Grid.Column="1"/>
+               Grid.Column="1" />
         <DataGrid x:Name="dataGridOrderDetails"
                   Grid.Column="1"
                   Grid.Row="1"
@@ -184,13 +191,13 @@
                 </Style>
             </Grid.Resources>
 
-            <Label Content="Pris:"/>
+            <Label Content="Pris:" />
             <TextBox x:Name="textBoxUnitPrice"
                      IsReadOnly="True"
                      Grid.Column="1"
                      Text="{Binding Path=SelectedOrderDetail.UnitPrice}" />
             <Label Content="Antal:"
-                   Grid.Row="1"/>
+                   Grid.Row="1" />
             <TextBox x:Name="textBoxQuantity"
                      IsReadOnly="True"
                      Grid.Column="1"

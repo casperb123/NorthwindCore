@@ -14,6 +14,22 @@ namespace NorthwindCore.Gui.Desktop.ViewModels
         private ObservableCollection<Order> orders;
         private Order selectedOrder;
         private OrderDetail selectedOrderDetail;
+        private string selectedCurrency;
+
+        public string SelectedCurrency
+        {
+            get { return selectedCurrency; }
+            set
+            {
+                if (value is null)
+                {
+                    throw new NullReferenceException("Valuta kan ikke være null");
+                }
+
+                selectedCurrency = value;
+                OnPropertyChanged(nameof(SelectedCurrency));
+            }
+        }
 
         public OrderDetail SelectedOrderDetail
         {
@@ -50,8 +66,11 @@ namespace NorthwindCore.Gui.Desktop.ViewModels
             }
         }
 
+        public Dictionary<string, double> Rates { get; set; }
+
         public OrdersUserControlViewModel()
         {
+            selectedCurrency = "USD";
             orders = new ObservableCollection<Order>();
             Task.Factory.StartNew(() => GetOrders());
         }
