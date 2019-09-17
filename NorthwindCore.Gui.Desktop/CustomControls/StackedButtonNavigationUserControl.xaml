@@ -21,7 +21,8 @@
                          Content="HR"
                          Checked="ButtonHr_Checked" />
             <RadioButton x:Name="buttonOrders"
-                         Content="Ordre" />
+                         Content="Ordre"
+                         Checked="ButtonOrders_Checked" />
             <RadioButton x:Name="buttonProducts"
                          Content="Produkter" />
             <RadioButton x:Name="buttonAccounting"

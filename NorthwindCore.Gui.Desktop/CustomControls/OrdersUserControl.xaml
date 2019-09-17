@@ -1,0 +1,171 @@
+﻿<UserControl x:Class="NorthwindCore.Gui.Desktop.CustomControls.OrdersUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:NorthwindCore.Gui.Desktop.CustomControls"
+             mc:Ignorable="d"
+             d:DesignHeight="620"
+             d:DesignWidth="1000">
+    <Grid Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height=".7*" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+
+        <Label Content="Ordrer"
+               FontWeight="Bold"
+               HorizontalContentAlignment="Center" />
+        <DataGrid x:Name="dataGridOrders"
+                  Grid.Row="1"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  SelectionMode="Single"
+                  ItemsSource="{Binding Path=Orders}"
+                  SelectionChanged="DataGridOrders_SelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Kunde"
+                                    Width="1*"
+                                    Binding="{Binding Customer.ContactName}" />
+                <DataGridTextColumn Header="Sælger"
+                                    Width="1*"
+                                    Binding="{Binding Employee.FullName}" />
+                <DataGridTextColumn Header="Produkter"
+                                    Width=".5*"
+                                    Binding="{Binding OrderDetailsCount}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35" />
+                <RowDefinition Height="35" />
+                <RowDefinition Height="35" />
+                <RowDefinition Height="35" />
+                <RowDefinition Height="35" />
+                <RowDefinition Height="35" />
+                <RowDefinition Height="35" />
+                <RowDefinition Height="35" />
+                <RowDefinition Height="35" />
+                <RowDefinition Height="35" />
+            </Grid.RowDefinitions>
+            <Grid.Resources>
+                <Style TargetType="{x:Type TextBox}">
+                    <Setter Property="Margin"
+                            Value="5" />
+                </Style>
+                <Style TargetType="{x:Type DatePickerTextBox}">
+                    <Setter Property="Margin"
+                            Value="5" />
+                </Style>
+                <Style TargetType="{x:Type Label}">
+                    <Setter Property="VerticalContentAlignment"
+                            Value="Center" />
+                </Style>
+            </Grid.Resources>
+
+            <Label Content="Ordre dato:" />
+            <DatePickerTextBox x:Name="datePickerOrderDate"
+                               IsReadOnly="True"
+                               Grid.Column="1"
+                               Text="{Binding Path=SelectedOrder.OrderDate}" />
+            <Label Content="Påkrævet dato:"
+                   Grid.Row="1" />
+            <DatePickerTextBox x:Name="datePickerRequiredDate"
+                               IsReadOnly="True"
+                               Grid.Column="1"
+                               Grid.Row="1"
+                               Text="{Binding Path=SelectedOrder.RequiredDate}" />
+            <Label Content="Fragt:"
+                   Grid.Row="2" />
+            <TextBox x:Name="textBoxFreight"
+                     IsReadOnly="True"
+                     Grid.Column="1"
+                     Grid.Row="2"
+                     Text="{Binding Path=SelectedOrder.Freight}" />
+            <Label Content="Navn:"
+                   Grid.Row="3" />
+            <TextBox x:Name="textBoxShipName"
+                     IsReadOnly="True"
+                     Grid.Column="1"
+                     Grid.Row="3"
+                     Text="{Binding Path=SelectedOrder.ShipName}" />
+            <Label Content="Adresse:"
+                   Grid.Row="4" />
+            <TextBox x:Name="textBoxShipAddress"
+                     IsReadOnly="True"
+                     Grid.Column="1"
+                     Grid.Row="4"
+                     Text="{Binding Path=SelectedOrder.ShipAddress}" />
+            <Label Content="By:"
+                   Grid.Row="5" />
+            <TextBox x:Name="textBoxShipCity"
+                     IsReadOnly="True"
+                     Grid.Column="1"
+                     Grid.Row="5"
+                     Text="{Binding Path=SelectedOrder.ShipCity}" />
+            <Label Content="Region:"
+                   Grid.Row="6" />
+            <TextBox x:Name="textBoxShipRegion"
+                     IsReadOnly="True"
+                     Grid.Column="1"
+                     Grid.Row="6"
+                     Text="{Binding Path=SelectedOrder.ShipRegion}" />
+            <Label Content="Postnummer:"
+                   Grid.Row="7" />
+            <TextBox x:Name="textBoxShipPostalCode"
+                     IsReadOnly="True"
+                     Grid.Column="1"
+                     Grid.Row="7"
+                     Text="{Binding Path=SelectedOrder.ShipPostalCode}" />
+            <Label Content="Land:"
+                   Grid.Row="8" />
+            <TextBox x:Name="textBoxShipCountry"
+                     IsReadOnly="True"
+                     Grid.Column="1"
+                     Grid.Row="8"
+                     Text="{Binding Path=SelectedOrder.ShipCountry}" />
+            <Label Content="Total Pris:"
+                   Grid.Row="9" />
+            <TextBox x:Name="labelTotalPrice"
+                     IsReadOnly="True"
+                     Grid.Column="1"
+                     Grid.Row="9"
+                     Text="{Binding Path=SelectedOrder.TotalPrice, Mode=OneWay}" />
+        </Grid>
+
+        <Label Content="Ordrer Detaljer"
+               FontWeight="Bold"
+               HorizontalContentAlignment="Center"
+               Grid.Column="1"/>
+        <DataGrid x:Name="dataGridOrderDetails"
+                  Grid.Column="1"
+                  Grid.Row="1"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  SelectionMode="Single"
+                  ItemsSource="{Binding Path=SelectedOrder.OrderDetails}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Produkt navn"
+                                    Width="2*"
+                                    Binding="{Binding Path=Product.ProductName}" />
+                <DataGridTextColumn Header="Produkt pris"
+                                    Width="1.5*"
+                                    Binding="{Binding Path=Product.UnitPrice}" />
+                <DataGridTextColumn Header="Antal"
+                                    Width="1*"
+                                    Binding="{Binding Path=Quantity}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        
+    </Grid>
+</UserControl>

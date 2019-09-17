@@ -8,9 +8,8 @@
         Title="Northwind"
         Height="700"
         Width="1200"
-        MinHeight="700"
         MinWidth="1200"
-        SizeToContent="Height">
+        MinHeight="700">
     <Grid>
         <DockPanel>
             <Menu DockPanel.Dock="Top">

@@ -31,5 +31,10 @@ namespace NorthwindCore.Gui.Desktop.CustomControls
         {
             stackedButtonNavigationUserControlViewModel.MainWindow.DetailsUserControl.Content = new HrUserControl();
         }
+
+        private void ButtonOrders_Checked(object sender, RoutedEventArgs e)
+        {
+            stackedButtonNavigationUserControlViewModel.MainWindow.DetailsUserControl.Content = new OrdersUserControl();
+        }
     }
 }

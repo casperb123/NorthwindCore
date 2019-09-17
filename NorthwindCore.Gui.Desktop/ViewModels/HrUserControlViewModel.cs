@@ -65,8 +65,7 @@ namespace NorthwindCore.Gui.Desktop.ViewModels
 
         public HrUserControlViewModel()
         {
-            //Repository repository = new Repository();
-            //employees = repository.GetEmployees();
+            employees = new ObservableCollection<Employee>();
             Task.Factory.StartNew(() => GetEmployees());
         }
 
@@ -75,7 +74,6 @@ namespace NorthwindCore.Gui.Desktop.ViewModels
         /// </summary>
         private async void GetEmployees()
         {
-            Employees = new ObservableCollection<Employee>();
             Repository repository = new Repository();
             await foreach (Employee employee in repository.GetEmployeesAsync())
             {

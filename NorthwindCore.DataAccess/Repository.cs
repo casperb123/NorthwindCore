@@ -45,6 +45,34 @@ namespace NorthwindCore.DataAccess
             }
         }
 
+        public List<Order> GetOrders()
+        {
+            return context.Orders
+                .Include(o => o.Customer)
+                .Include(o => o.Employee)
+                .Include(o => o.ShipViaNavigation)
+                .Include(o => o.OrderDetails)
+                .ToList();
+        }
+
+        public async IAsyncEnumerable<Order> GetOrdersAsync()
+        {
+            IAsyncEnumerable<Order> orders = context.Orders
+                .Include(o => o.Customer)
+                .Include(o => o.Employee)
+                .Include(o => o.ShipViaNavigation)
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(or => or.Product)
+                .Where(o => o.ShippedDate == null)
+                .OrderByDescending(o => o.RequiredDate)
+                .AsAsyncEnumerable();
+
+            await foreach (Order order in orders)
+            {
+                yield return order;
+            }
+        }
+
         /// <summary>
         /// Adds an employment to the database
         /// </summary>
