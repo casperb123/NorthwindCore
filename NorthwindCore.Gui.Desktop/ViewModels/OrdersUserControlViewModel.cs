@@ -13,6 +13,17 @@ namespace NorthwindCore.Gui.Desktop.ViewModels
     {
         private ObservableCollection<Order> orders;
         private Order selectedOrder;
+        private OrderDetail selectedOrderDetail;
+
+        public OrderDetail SelectedOrderDetail
+        {
+            get { return selectedOrderDetail; }
+            set
+            {
+                selectedOrderDetail = value;
+                OnPropertyChanged(nameof(SelectedOrderDetail));
+            }
+        }
 
         public Order SelectedOrder
         {

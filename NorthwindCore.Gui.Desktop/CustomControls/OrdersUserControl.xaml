@@ -31,14 +31,11 @@
                   SelectionChanged="DataGridOrders_SelectionChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Kunde"
-                                    Width="1*"
-                                    Binding="{Binding Customer.ContactName}" />
+                                    Binding="{Binding Path=Customer.ContactName}" />
                 <DataGridTextColumn Header="Sælger"
-                                    Width="1*"
-                                    Binding="{Binding Employee.FullName}" />
+                                    Binding="{Binding Path=Employee.FullName}" />
                 <DataGridTextColumn Header="Produkter"
-                                    Width=".5*"
-                                    Binding="{Binding OrderDetailsCount}" />
+                                    Binding="{Binding Path=TotalOrderDetails}" />
             </DataGrid.Columns>
         </DataGrid>
         <Grid Grid.Row="2">
@@ -153,19 +150,59 @@
                   AutoGenerateColumns="False"
                   IsReadOnly="True"
                   SelectionMode="Single"
-                  ItemsSource="{Binding Path=SelectedOrder.OrderDetails}">
+                  ItemsSource="{Binding Path=SelectedOrder.OrderDetails}"
+                  SelectionChanged="DataGridOrderDetails_SelectionChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Produkt navn"
-                                    Width="2*"
-                                    Binding="{Binding Path=Product.ProductName}" />
-                <DataGridTextColumn Header="Produkt pris"
-                                    Width="1.5*"
-                                    Binding="{Binding Path=Product.UnitPrice}" />
-                <DataGridTextColumn Header="Antal"
                                     Width="1*"
-                                    Binding="{Binding Path=Quantity}" />
+                                    Binding="{Binding Path=Product.ProductName}" />
             </DataGrid.Columns>
         </DataGrid>
-        
+        <Grid Grid.Column="1"
+              Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35" />
+                <RowDefinition Height="35" />
+                <RowDefinition Height="35" />
+            </Grid.RowDefinitions>
+            <Grid.Resources>
+                <Style TargetType="{x:Type TextBox}">
+                    <Setter Property="Margin"
+                            Value="5" />
+                </Style>
+                <Style TargetType="{x:Type DatePickerTextBox}">
+                    <Setter Property="Margin"
+                            Value="5" />
+                </Style>
+                <Style TargetType="{x:Type Label}">
+                    <Setter Property="VerticalContentAlignment"
+                            Value="Center" />
+                </Style>
+            </Grid.Resources>
+
+            <Label Content="Pris:"/>
+            <TextBox x:Name="textBoxUnitPrice"
+                     IsReadOnly="True"
+                     Grid.Column="1"
+                     Text="{Binding Path=SelectedOrderDetail.UnitPrice}" />
+            <Label Content="Antal:"
+                   Grid.Row="1"/>
+            <TextBox x:Name="textBoxQuantity"
+                     IsReadOnly="True"
+                     Grid.Column="1"
+                     Grid.Row="1"
+                     Text="{Binding Path=SelectedOrderDetail.Quantity}" />
+            <Label Content="Rabat:"
+                   Grid.Row="2" />
+            <TextBox x:Name="textBoxDiscount"
+                     IsReadOnly="True"
+                     Grid.Column="1"
+                     Grid.Row="2"
+                     Text="{Binding Path=SelectedOrderDetail.Discount}" />
+        </Grid>
     </Grid>
 </UserControl>

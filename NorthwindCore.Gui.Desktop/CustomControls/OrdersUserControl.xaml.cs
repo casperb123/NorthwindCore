@@ -33,5 +33,10 @@ namespace NorthwindCore.Gui.Desktop.CustomControls
         {
             ordersUserControlViewModel.SelectedOrder = dataGridOrders.SelectedItem as Order;
         }
+
+        private void DataGridOrderDetails_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ordersUserControlViewModel.SelectedOrderDetail = dataGridOrderDetails.SelectedItem as OrderDetail;
+        }
     }
 }

@@ -7,8 +7,8 @@
         mc:Ignorable="d"
         Title="Northwind"
         Height="700"
-        Width="1200"
-        MinWidth="1200"
+        Width="1300"
+        MinWidth="1300"
         MinHeight="700">
     <Grid>
         <DockPanel>
