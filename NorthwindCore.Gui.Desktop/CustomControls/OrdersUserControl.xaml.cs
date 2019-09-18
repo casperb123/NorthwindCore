@@ -25,7 +25,6 @@ namespace NorthwindCore.Gui.Desktop.CustomControls
     public partial class OrdersUserControl : UserControl
     {
         private readonly OrdersUserControlViewModel ordersUserControlViewModel;
-        private Dictionary<string, double> rates;
 
         public OrdersUserControl()
         {
