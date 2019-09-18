@@ -12,6 +12,10 @@ namespace NorthwindCore.DataAccess
     {
         private readonly NorthwindContext context;
 
+        /// <summary>
+        /// Initializes a new instance
+        /// </summary>
+        /// <param name="context">The context to be used</param>
         public Repository(NorthwindContext context = null)
         {
             if (context is null)
