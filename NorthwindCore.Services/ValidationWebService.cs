@@ -2,6 +2,7 @@
 using NorthwindCore.Entities;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -49,16 +50,18 @@ namespace NorthwindCore.Services
             return JsonConvert.DeserializeObject<ValidationNotes>(GetJson(url).Result).result;
         }
 
-        public OpenExchange GetRates()
+        public ICollection<ExchangeRate> GetRates()
         {
-            return JsonConvert.DeserializeObject<OpenExchange>(GetJson(openExchangeRatesApi).Result);
-        }
+            OpenExchange openExchange = JsonConvert.DeserializeObject<OpenExchange>(GetJson(openExchangeRatesApi).Result);
+            ICollection<ExchangeRate> exchangeRates = new List<ExchangeRate>();
 
-        public double GetPrice(string currency, decimal price)
-        {
-            OpenExchange openExchange = GetRates();
-            double newPrice = decimal.ToDouble(price) * openExchange.rates[currency];
-            return newPrice;
+            foreach (KeyValuePair<string, double> rate in openExchange.rates)
+            {
+                ExchangeRate exchangeRate = new ExchangeRate(rate.Key, rate.Value);
+                exchangeRates.Add(exchangeRate);
+            }
+
+            return exchangeRates;
         }
 
         public class ValidationPhoneNumber

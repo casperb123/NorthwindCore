@@ -1,9 +1,12 @@
-﻿using NorthwindCore.Entities;
+﻿using NorthwindCore.DataAccess;
+using NorthwindCore.Entities;
 using NorthwindCore.Gui.Desktop.ViewModels;
 using NorthwindCore.Services;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -29,31 +32,47 @@ namespace NorthwindCore.Gui.Desktop.CustomControls
             InitializeComponent();
             ordersUserControlViewModel = new OrdersUserControlViewModel();
             DataContext = ordersUserControlViewModel;
-            ValidationWebService validationWebService = new ValidationWebService();
-            rates = validationWebService.GetRates().rates;
-            foreach (KeyValuePair<string, double> rate in rates)
+        }
+
+        private void SetNewPrices()
+        {
+            ExchangeRate selectedRate = ordersUserControlViewModel.SelectedRate;
+
+            if (ordersUserControlViewModel.SelectedOrder != null)
             {
-                comboBoxCurrency.Items.Add(rate.Key);
+                textBoxTotalPrice.Text = ordersUserControlViewModel.GetPrice(selectedRate, (double)ordersUserControlViewModel.SelectedOrder.TotalPrice).ToString();
+                if (ordersUserControlViewModel.SelectedOrderDetail != null)
+                {
+                    textBoxUnitPrice.Text = ordersUserControlViewModel.GetPrice(selectedRate, (double)ordersUserControlViewModel.SelectedOrderDetail.UnitPrice).ToString();
+                }
+                if (ordersUserControlViewModel.SelectedInvoice != null)
+                {
+                    textBoxInvoiceUnitPrice.Text = ordersUserControlViewModel.GetPrice(selectedRate, (double)ordersUserControlViewModel.SelectedInvoice.UnitPrice).ToString();
+                    textBoxInvoiceExtendedPrice.Text = ordersUserControlViewModel.GetPrice(selectedRate, (double)ordersUserControlViewModel.SelectedInvoice.ExtendedPrice).ToString();
+                    textBoxInvoiceFreight.Text = ordersUserControlViewModel.GetPrice(selectedRate, (double)ordersUserControlViewModel.SelectedInvoice.Freight).ToString();
+                }
             }
         }
 
         private void DataGridOrders_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ValidationWebService validationWebService = new ValidationWebService();
-            ordersUserControlViewModel.SelectedOrder = dataGridOrders.SelectedItem as Order;
-            textBoxTotalPrice.Text = validationWebService.GetPrice(ordersUserControlViewModel.SelectedCurrency, ordersUserControlViewModel.SelectedOrder.TotalPrice).ToString();
+            Task.Factory.StartNew(() => ordersUserControlViewModel.GetInvoices());
+            SetNewPrices();
         }
 
         private void DataGridOrderDetails_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ordersUserControlViewModel.SelectedOrderDetail = dataGridOrderDetails.SelectedItem as OrderDetail;
+            SetNewPrices();
         }
 
         private void ComboBoxCurrency_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ValidationWebService validationWebService = new ValidationWebService();
-            ordersUserControlViewModel.SelectedCurrency = comboBoxCurrency.SelectedItem.ToString();
-            textBoxTotalPrice.Text = validationWebService.GetPrice(ordersUserControlViewModel.SelectedCurrency, ordersUserControlViewModel.SelectedOrder.TotalPrice).ToString();
+            SetNewPrices();
+        }
+
+        private void DataGridInvoices_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SetNewPrices();
         }
     }
 }

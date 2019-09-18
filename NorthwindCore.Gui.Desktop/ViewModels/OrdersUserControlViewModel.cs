@@ -1,9 +1,11 @@
 ﻿using NorthwindCore.DataAccess;
 using NorthwindCore.Entities;
+using NorthwindCore.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,11 +16,35 @@ namespace NorthwindCore.Gui.Desktop.ViewModels
         private ObservableCollection<Order> orders;
         private Order selectedOrder;
         private OrderDetail selectedOrderDetail;
-        private string selectedCurrency;
+        private ExchangeRate selectedRate;
+        private ObservableCollection<Invoice> invoices;
+        private Invoice selectecInvoice;
 
-        public string SelectedCurrency
+        public Invoice SelectedInvoice
         {
-            get { return selectedCurrency; }
+            get { return selectecInvoice; }
+            set
+            {
+                selectecInvoice = value;
+                OnPropertyChanged(nameof(SelectedInvoice));
+            }
+        }
+
+        public ObservableCollection<Invoice> Invoices
+        {
+            get { return invoices; }
+            set
+            {
+                invoices = value;
+                OnPropertyChanged(nameof(Invoices));
+            }
+        }
+
+        public List<ExchangeRate> ExchangeRates { get; set; }
+
+        public ExchangeRate SelectedRate
+        {
+            get { return selectedRate; }
             set
             {
                 if (value is null)
@@ -26,8 +52,8 @@ namespace NorthwindCore.Gui.Desktop.ViewModels
                     throw new NullReferenceException("Valuta kan ikke være null");
                 }
 
-                selectedCurrency = value;
-                OnPropertyChanged(nameof(SelectedCurrency));
+                selectedRate = value;
+                OnPropertyChanged(nameof(SelectedRate));
             }
         }
 
@@ -66,13 +92,40 @@ namespace NorthwindCore.Gui.Desktop.ViewModels
             }
         }
 
-        public Dictionary<string, double> Rates { get; set; }
+        public double GetPrice(ExchangeRate exchangeRate, double amount)
+        {
+            double converted = Math.Round(amount * exchangeRate.Rate, 5);
+            if (converted < 1)
+            {
+                return converted;
+            }
+            return Math.Round(converted, 2);
+        }
+
+        public async void GetInvoices()
+        {
+            Repository repository = new Repository();
+            App.Current.Dispatcher.Invoke(() =>
+            {
+                Invoices.Clear();
+            });
+            await foreach (Invoice invoice in repository.GetInvoicesForOrderAsync(SelectedOrder.OrderId))
+            {
+                App.Current.Dispatcher.Invoke(() =>
+                {
+                    Invoices.Add(invoice);
+                });
+            }
+        }
 
         public OrdersUserControlViewModel()
         {
-            selectedCurrency = "USD";
+            ValidationWebService validationWebService = new ValidationWebService();
+            ExchangeRates = validationWebService.GetRates().ToList();
             orders = new ObservableCollection<Order>();
+            invoices = new ObservableCollection<Invoice>();
             Task.Factory.StartNew(() => GetOrders());
+            selectedRate = ExchangeRates.FirstOrDefault(e => e.Currency == "USD");
         }
 
         private async void GetOrders()

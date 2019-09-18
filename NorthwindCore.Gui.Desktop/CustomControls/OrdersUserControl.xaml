@@ -27,7 +27,10 @@
             <Label Content="Valuta:" />
             <ComboBox x:Name="comboBoxCurrency"
                       Width="60"
-                      SelectionChanged="ComboBoxCurrency_SelectionChanged"/>
+                      ItemsSource="{Binding Path=ExchangeRates}"
+                      SelectedItem="{Binding Path=SelectedRate, UpdateSourceTrigger=PropertyChanged}"
+                      DisplayMemberPath="Currency"
+                      SelectionChanged="ComboBoxCurrency_SelectionChanged" />
         </StackPanel>
         <DataGrid x:Name="dataGridOrders"
                   Grid.Row="1"
@@ -35,6 +38,7 @@
                   IsReadOnly="True"
                   SelectionMode="Single"
                   ItemsSource="{Binding Path=Orders}"
+                  SelectedItem="{Binding Path=SelectedOrder}"
                   SelectionChanged="DataGridOrders_SelectionChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Kunde"
@@ -143,8 +147,7 @@
             <TextBox x:Name="textBoxTotalPrice"
                      IsReadOnly="True"
                      Grid.Column="1"
-                     Grid.Row="9"
-                     Text="{Binding Path=SelectedOrder.TotalPrice, Mode=OneWay}" />
+                     Grid.Row="9" />
         </Grid>
 
         <Label Content="Ordrer Detaljer"
@@ -158,6 +161,7 @@
                   IsReadOnly="True"
                   SelectionMode="Single"
                   ItemsSource="{Binding Path=SelectedOrder.OrderDetails}"
+                  SelectedItem="{Binding Path=SelectedOrderDetail}"
                   SelectionChanged="DataGridOrderDetails_SelectionChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Produkt navn"
@@ -191,11 +195,10 @@
                 </Style>
             </Grid.Resources>
 
-            <Label Content="Pris:" />
+            <Label Content="Produkt pris:" />
             <TextBox x:Name="textBoxUnitPrice"
                      IsReadOnly="True"
-                     Grid.Column="1"
-                     Text="{Binding Path=SelectedOrderDetail.UnitPrice}" />
+                     Grid.Column="1" />
             <Label Content="Antal:"
                    Grid.Row="1" />
             <TextBox x:Name="textBoxQuantity"
@@ -211,5 +214,209 @@
                      Grid.Row="2"
                      Text="{Binding Path=SelectedOrderDetail.Discount}" />
         </Grid>
+
+        <Label Content="Fakturaer"
+               FontWeight="Bold"
+               HorizontalContentAlignment="Center"
+               Grid.Column="2" />
+        <DataGrid x:Name="dataGridInvoices"
+                  Grid.Column="2"
+                  Grid.Row="1"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  SelectionMode="Single"
+                  ItemsSource="{Binding Path=Invoices}"
+                  SelectedItem="{Binding Path=SelectedInvoice}"
+                  SelectionChanged="DataGridInvoices_SelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Produkt navn"
+                                    Width="1*"
+                                    Binding="{Binding Path=ProductName}" />
+                <DataGridTextColumn Header="Antal varer"
+                                    Binding="{Binding Path=Quantity}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <ScrollViewer Grid.Column="2"
+                      Grid.Row="2"
+                      VerticalScrollBarVisibility="Auto">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="35" />
+                    <RowDefinition Height="35" />
+                    <RowDefinition Height="35" />
+                    <RowDefinition Height="35" />
+                    <RowDefinition Height="35" />
+                    <RowDefinition Height="35" />
+                    <RowDefinition Height="35" />
+                    <RowDefinition Height="35" />
+                    <RowDefinition Height="35" />
+                    <RowDefinition Height="35" />
+                    <RowDefinition Height="35" />
+                    <RowDefinition Height="35" />
+                    <RowDefinition Height="35" />
+                    <RowDefinition Height="35" />
+                    <RowDefinition Height="35" />
+                    <RowDefinition Height="35" />
+                    <RowDefinition Height="35" />
+                    <RowDefinition Height="35" />
+                    <RowDefinition Height="35" />
+                    <RowDefinition Height="35" />
+                </Grid.RowDefinitions>
+                <Grid.Resources>
+                    <Style TargetType="{x:Type TextBox}">
+                        <Setter Property="Margin"
+                                Value="5" />
+                    </Style>
+                    <Style TargetType="{x:Type DatePickerTextBox}">
+                        <Setter Property="Margin"
+                                Value="5" />
+                    </Style>
+                    <Style TargetType="{x:Type Label}">
+                        <Setter Property="VerticalContentAlignment"
+                                Value="Center" />
+                    </Style>
+                </Grid.Resources>
+
+                <Label Content="Modtager navn:" />
+                <TextBox x:Name="textBoxInvoiceShipName"
+                         IsReadOnly="True"
+                         Grid.Column="1"
+                         Text="{Binding Path=SelectedInvoice.ShipName}" />
+                <Label Content="Modtager adresse:"
+                       Grid.Row="1" />
+                <TextBox x:Name="textBoxInvoiceShipAddress"
+                         IsReadOnly="True"
+                         Grid.Column="1"
+                         Grid.Row="1"
+                         Text="{Binding Path=SelectedInvoice.ShipAddress}" />
+                <Label Content="Modtager by:"
+                       Grid.Row="2" />
+                <TextBox x:Name="textBoxInvoiceShipCity"
+                         IsReadOnly="True"
+                         Grid.Column="1"
+                         Grid.Row="2"
+                         Text="{Binding Path=SelectedInvoice.ShipCity}" />
+                <Label Content="Modtager region:"
+                       Grid.Row="3" />
+                <TextBox x:Name="textBoxInvoiceShipRegion"
+                         IsReadOnly="True"
+                         Grid.Column="1"
+                         Grid.Row="3"
+                         Text="{Binding Path=SelectedInvoice.ShipRegion}" />
+                <Label Content="Modtager postnummer:"
+                       Grid.Row="4" />
+                <TextBox x:Name="textBoxInvoiceShipPostalCode"
+                         IsReadOnly="True"
+                         Grid.Column="1"
+                         Grid.Row="4"
+                         Text="{Binding Path=SelectedInvoice.ShipPostalCode}" />
+                <Label Content="Modtager land:"
+                       Grid.Row="5" />
+                <TextBox x:Name="textBoxInvoiceShipCountry"
+                         IsReadOnly="True"
+                         Grid.Column="1"
+                         Grid.Row="5"
+                         Text="{Binding Path=SelectedInvoice.ShipCountry}" />
+                <Label Content="Kunde navn:"
+                       Grid.Row="6" />
+                <TextBox x:Name="textBoxInvoiceCustomerName"
+                         IsReadOnly="True"
+                         Grid.Column="1"
+                         Grid.Row="6"
+                         Text="{Binding Path=SelectedInvoice.CustomerName}" />
+                <Label Content="Kunde adresse:"
+                       Grid.Row="7" />
+                <TextBox x:Name="textBoxInvoiceCustomerAddress"
+                         IsReadOnly="True"
+                         Grid.Column="1"
+                         Grid.Row="7"
+                         Text="{Binding Path=SelectedInvoice.Address}" />
+                <Label Content="Kunde by:"
+                       Grid.Row="8" />
+                <TextBox x:Name="textBoxInvoiceCustomerCity"
+                         IsReadOnly="True"
+                         Grid.Column="1"
+                         Grid.Row="8"
+                         Text="{Binding Path=SelectedInvoice.City}" />
+                <Label Content="Kunde region:"
+                       Grid.Row="9" />
+                <TextBox x:Name="textBoxInvoiceCustomerRegion"
+                         IsReadOnly="True"
+                         Grid.Column="1"
+                         Grid.Row="9"
+                         Text="{Binding Path=SelectedInvoice.Region}" />
+                <Label Content="Kunde postnummer:"
+                       Grid.Row="10" />
+                <TextBox x:Name="textBoxInvoiceCustomerPostalCode"
+                         IsReadOnly="True"
+                         Grid.Column="1"
+                         Grid.Row="10"
+                         Text="{Binding Path=SelectedInvoice.PostalCode}" />
+                <Label Content="Kunde land:"
+                       Grid.Row="11" />
+                <TextBox x:Name="textBoxInvoiceCustomerCountry"
+                         IsReadOnly="True"
+                         Grid.Column="1"
+                         Grid.Row="11"
+                         Text="{Binding Path=SelectedInvoice.Country}" />
+                <Label Content="Sælger:"
+                       Grid.Row="12" />
+                <TextBox x:Name="textBoxInvoiceSalesPerson"
+                         IsReadOnly="True"
+                         Grid.Column="1"
+                         Grid.Row="12"
+                         Text="{Binding Path=SelectedInvoice.Salesperson}" />
+                <Label Content="Ordre dato:"
+                       Grid.Row="13" />
+                <DatePickerTextBox x:Name="textBoxInvoiceOrderDate"
+                                   IsReadOnly="True"
+                                   Grid.Column="1"
+                                   Grid.Row="13"
+                                   Text="{Binding Path=SelectedInvoice.OrderDate}" />
+                <Label Content="Leverings dato:"
+                       Grid.Row="14" />
+                <DatePickerTextBox x:Name="textBoxInvoiceRequiredDate"
+                                   IsReadOnly="True"
+                                   Grid.Column="1"
+                                   Grid.Row="14"
+                                   Text="{Binding Path=SelectedInvoice.RequiredDate}" />
+                <Label Content="Transportør:"
+                       Grid.Row="15" />
+                <TextBox x:Name="textBoxInvoiceShipperName"
+                         IsReadOnly="True"
+                         Grid.Column="1"
+                         Grid.Row="15"
+                         Text="{Binding Path=SelectedInvoice.ShipperName}" />
+                <Label Content="Produkt pris:"
+                       Grid.Row="16" />
+                <TextBox x:Name="textBoxInvoiceUnitPrice"
+                         IsReadOnly="True"
+                         Grid.Column="1"
+                         Grid.Row="16"/>
+                <Label Content="Rabat:"
+                       Grid.Row="17" />
+                <TextBox x:Name="textBoxInvoiceDiscount"
+                         IsReadOnly="True"
+                         Grid.Column="1"
+                         Grid.Row="17"
+                         Text="{Binding Path=SelectedInvoice.Discount}"/>
+                <Label Content="Samlet pris:"
+                       Grid.Row="18" />
+                <TextBox x:Name="textBoxInvoiceExtendedPrice"
+                         IsReadOnly="True"
+                         Grid.Column="1"
+                         Grid.Row="18"/>
+                <Label Content="Fragt:"
+                       Grid.Row="19" />
+                <TextBox x:Name="textBoxInvoiceFreight"
+                         IsReadOnly="True"
+                         Grid.Column="1"
+                         Grid.Row="19"/>
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </UserControl>

@@ -73,6 +73,23 @@ namespace NorthwindCore.DataAccess
             }
         }
 
+        public List<Invoice> GetInvoicesForOrder(int orderId)
+        {
+            return context.Invoices.Where(i => i.OrderId == orderId).ToList();
+        }
+
+        public async IAsyncEnumerable<Invoice> GetInvoicesForOrderAsync(int orderId)
+        {
+            IAsyncEnumerable<Invoice> invoices = context.Invoices
+                .Where(i => i.OrderId == orderId)
+                .AsAsyncEnumerable();
+
+            await foreach (Invoice invoice in invoices)
+            {
+                yield return invoice;
+            }
+        }
+
         /// <summary>
         /// Adds an employment to the database
         /// </summary>
