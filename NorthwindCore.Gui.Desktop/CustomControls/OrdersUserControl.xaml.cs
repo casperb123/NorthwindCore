@@ -34,6 +34,9 @@ namespace NorthwindCore.Gui.Desktop.CustomControls
             DataContext = ordersUserControlViewModel;
         }
 
+        /// <summary>
+        /// Converts all the prices in the textboxes to the selected currency
+        /// </summary>
         private void SetNewPrices()
         {
             ExchangeRate selectedRate = ordersUserControlViewModel.SelectedRate;
@@ -41,6 +44,7 @@ namespace NorthwindCore.Gui.Desktop.CustomControls
             if (ordersUserControlViewModel.SelectedOrder != null)
             {
                 textBoxTotalPrice.Text = ordersUserControlViewModel.GetPrice(selectedRate, (double)ordersUserControlViewModel.SelectedOrder.TotalPrice).ToString();
+                textBoxFreight.Text = ordersUserControlViewModel.GetPrice(selectedRate, (double)ordersUserControlViewModel.SelectedOrder.Freight).ToString();
                 if (ordersUserControlViewModel.SelectedOrderDetail != null)
                 {
                     textBoxUnitPrice.Text = ordersUserControlViewModel.GetPrice(selectedRate, (double)ordersUserControlViewModel.SelectedOrderDetail.UnitPrice).ToString();

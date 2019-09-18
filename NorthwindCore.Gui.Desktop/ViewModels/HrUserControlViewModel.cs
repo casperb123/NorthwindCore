@@ -70,7 +70,7 @@ namespace NorthwindCore.Gui.Desktop.ViewModels
         }
 
         /// <summary>
-        /// Gets a list of all employees and then adds it to the Employees list
+        /// Gets a list of all employees and then adds them to the employee list
         /// </summary>
         private async void GetEmployees()
         {

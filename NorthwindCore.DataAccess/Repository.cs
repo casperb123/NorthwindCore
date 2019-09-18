@@ -45,6 +45,10 @@ namespace NorthwindCore.DataAccess
             }
         }
 
+        /// <summary>
+        /// Returns a list with all orders
+        /// </summary>
+        /// <returns>List of orders</returns>
         public List<Order> GetOrders()
         {
             return context.Orders
@@ -55,6 +59,10 @@ namespace NorthwindCore.DataAccess
                 .ToList();
         }
 
+        /// <summary>
+        /// Returns a list with all orders asynchronously
+        /// </summary>
+        /// <returns>List of orders</returns>
         public async IAsyncEnumerable<Order> GetOrdersAsync()
         {
             IAsyncEnumerable<Order> orders = context.Orders
@@ -73,11 +81,21 @@ namespace NorthwindCore.DataAccess
             }
         }
 
+        /// <summary>
+        /// Returns a list with all invoices for the order
+        /// </summary>
+        /// <param name="orderId">The order to get the invoices from</param>
+        /// <returns>List of invoices</returns>
         public List<Invoice> GetInvoicesForOrder(int orderId)
         {
             return context.Invoices.Where(i => i.OrderId == orderId).ToList();
         }
 
+        /// <summary>
+        /// Returns a list with all invoices for the orders asynchronously
+        /// </summary>
+        /// <param name="orderId">The order to get the invoices from</param>
+        /// <returns>List of invoices</returns>
         public async IAsyncEnumerable<Invoice> GetInvoicesForOrderAsync(int orderId)
         {
             IAsyncEnumerable<Invoice> invoices = context.Invoices

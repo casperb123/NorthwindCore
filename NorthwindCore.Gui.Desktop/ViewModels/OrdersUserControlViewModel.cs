@@ -20,6 +20,9 @@ namespace NorthwindCore.Gui.Desktop.ViewModels
         private ObservableCollection<Invoice> invoices;
         private Invoice selectecInvoice;
 
+        /// <summary>
+        /// The selected invoice
+        /// </summary>
         public Invoice SelectedInvoice
         {
             get { return selectecInvoice; }
@@ -30,6 +33,9 @@ namespace NorthwindCore.Gui.Desktop.ViewModels
             }
         }
 
+        /// <summary>
+        /// The list of invoices for the selected order
+        /// </summary>
         public ObservableCollection<Invoice> Invoices
         {
             get { return invoices; }
@@ -40,8 +46,14 @@ namespace NorthwindCore.Gui.Desktop.ViewModels
             }
         }
 
+        /// <summary>
+        /// The list of exchange rates
+        /// </summary>
         public List<ExchangeRate> ExchangeRates { get; set; }
 
+        /// <summary>
+        /// The selected exchange rate
+        /// </summary>
         public ExchangeRate SelectedRate
         {
             get { return selectedRate; }
@@ -57,6 +69,9 @@ namespace NorthwindCore.Gui.Desktop.ViewModels
             }
         }
 
+        /// <summary>
+        /// The selected order detail
+        /// </summary>
         public OrderDetail SelectedOrderDetail
         {
             get { return selectedOrderDetail; }
@@ -67,6 +82,9 @@ namespace NorthwindCore.Gui.Desktop.ViewModels
             }
         }
 
+        /// <summary>
+        /// The selected order
+        /// </summary>
         public Order SelectedOrder
         {
             get { return selectedOrder; }
@@ -77,6 +95,9 @@ namespace NorthwindCore.Gui.Desktop.ViewModels
             }
         }
 
+        /// <summary>
+        /// The list of orders
+        /// </summary>
         public ObservableCollection<Order> Orders
         {
             get { return orders; }
@@ -92,9 +113,15 @@ namespace NorthwindCore.Gui.Desktop.ViewModels
             }
         }
 
-        public double GetPrice(ExchangeRate exchangeRate, double amount)
+        /// <summary>
+        /// Returns the converted price
+        /// </summary>
+        /// <param name="exchangeRate">The exchange rate to convert to</param>
+        /// <param name="price">The price to be converted</param>
+        /// <returns>Converted price</returns>
+        public double GetPrice(ExchangeRate exchangeRate, double price)
         {
-            double converted = Math.Round(amount * exchangeRate.Rate, 5);
+            double converted = Math.Round(price * exchangeRate.Rate, 5);
             if (converted < 1)
             {
                 return converted;
@@ -102,6 +129,9 @@ namespace NorthwindCore.Gui.Desktop.ViewModels
             return Math.Round(converted, 2);
         }
 
+        /// <summary>
+        /// Gets a list of invoices and then adds them to the invoices list
+        /// </summary>
         public async void GetInvoices()
         {
             Repository repository = new Repository();
@@ -128,6 +158,9 @@ namespace NorthwindCore.Gui.Desktop.ViewModels
             selectedRate = ExchangeRates.FirstOrDefault(e => e.Currency == "USD");
         }
 
+        /// <summary>
+        /// Gets a list of all order and then adds them to the orders list
+        /// </summary>
         private async void GetOrders()
         {
             Repository repository = new Repository();
