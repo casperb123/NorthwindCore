@@ -12,7 +12,8 @@ namespace NorthwindCore.Tests
         [Theory]
         [InlineData("https://openexchangerates.org/api/latest.json?app=59999de6333c428ebcd5071ba5883aa1&base=USD")]
         [InlineData("https://openexchangerates.org/api/latest.json?app_id=59999de6333c428ebcd5071ba5883aa1&base=USD")]
-        public void ErrorTest(string url)
+        [InlineData("https://openexchangerates.org/api/latest.json?app_id=59999de633&base=USD")]
+        public void ExceptionTest(string url)
         {
             ValidationWebService validationWebService = new ValidationWebService();
             Assert.Throws<AggregateException>(() => validationWebService.GetRates(url));
