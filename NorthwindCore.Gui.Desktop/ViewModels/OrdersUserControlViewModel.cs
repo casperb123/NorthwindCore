@@ -18,17 +18,17 @@ namespace NorthwindCore.Gui.Desktop.ViewModels
         private OrderDetail selectedOrderDetail;
         private ExchangeRate selectedRate;
         private ObservableCollection<Invoice> invoices;
-        private Invoice selectecInvoice;
+        private Invoice selectedInvoice;
 
         /// <summary>
         /// The selected invoice
         /// </summary>
         public Invoice SelectedInvoice
         {
-            get { return selectecInvoice; }
+            get { return selectedInvoice; }
             set
             {
-                selectecInvoice = value;
+                selectedInvoice = value;
                 OnPropertyChanged(nameof(SelectedInvoice));
             }
         }
