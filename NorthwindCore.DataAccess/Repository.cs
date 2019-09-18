@@ -8,7 +8,7 @@ using System.Runtime;
 
 namespace NorthwindCore.DataAccess
 {
-    public class Repository : IDisposable
+    public class Repository
     {
         private readonly NorthwindContext context;
 
@@ -165,14 +165,6 @@ namespace NorthwindCore.DataAccess
             employee.Employments.Remove(employmentOnDb);
             context.Employments.Remove(employmentOnDb);
             context.SaveChanges();
-        }
-
-        /// <summary>
-        /// Disposes the repository
-        /// </summary>
-        public void Dispose()
-        {
-            context.Dispose();
         }
     }
 }
