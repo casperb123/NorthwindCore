@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NorthwindCore.Services
+namespace NorthwindCore.Entities
 {
     public class ExchangeRate
     {

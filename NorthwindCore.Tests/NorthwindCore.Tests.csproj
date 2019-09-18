@@ -22,6 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\NorthwindCore.DataAccess\NorthwindCore.DataAccess.csproj" />
     <ProjectReference Include="..\NorthwindCore.Entities\NorthwindCore.Entities.csproj" />
+    <ProjectReference Include="..\NorthwindCore.Services\NorthwindCore.Services.csproj" />
   </ItemGroup>
 
 </Project>

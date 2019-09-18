@@ -25,7 +25,7 @@ namespace NorthwindCore.Services
 
         public bool ValidatePhoneNumber(Employee employee)
         {
-            int phoneNumber = int.Parse(employee.HomePhone.Replace("(", "").Replace(")", "").Replace("-", "").Replace(" ", ""));
+            string phoneNumber = employee.HomePhone.Replace("(", "").Replace(")", "").Replace("-", "").Replace(" ", "");
             string countryCode = string.Empty;
 
             switch (employee.Country)
@@ -50,9 +50,20 @@ namespace NorthwindCore.Services
             return JsonConvert.DeserializeObject<ValidationNotes>(GetJson(url).Result).result;
         }
 
-        public ICollection<ExchangeRate> GetRates()
+        public ICollection<ExchangeRate> GetRates(string url = null)
         {
-            OpenExchange openExchange = JsonConvert.DeserializeObject<OpenExchange>(GetJson(openExchangeRatesApi).Result);
+            string jsonUrl = openExchangeRatesApi;
+            if (url != null)
+            {
+                jsonUrl = url;
+            }
+
+            OpenExchange openExchange = JsonConvert.DeserializeObject<OpenExchange>(GetJson(jsonUrl).Result);
+            if (openExchange.error)
+            {
+                throw new InvalidOperationException(openExchange.message);
+            }
+
             ICollection<ExchangeRate> exchangeRates = new List<ExchangeRate>();
 
             foreach (KeyValuePair<string, double> rate in openExchange.rates)
@@ -86,6 +97,8 @@ namespace NorthwindCore.Services
 
         public class OpenExchange
         {
+            public bool error { get; set; }
+            public string message { get; set; }
             public Dictionary<string, double> rates { get; set; }
         }
     }
