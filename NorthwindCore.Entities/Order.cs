@@ -10,6 +10,9 @@ namespace NorthwindCore.Entities
     {
         private ICollection<OrderDetail> orderDetails;
 
+        /// <summary>
+        /// Initializes a new instance
+        /// </summary>
         public Order()
         {
             orderDetails = new ObservableCollection<OrderDetail>();
