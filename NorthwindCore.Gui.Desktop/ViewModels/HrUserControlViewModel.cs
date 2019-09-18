@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using NorthwindCore.Services;
+using System.Collections.Generic;
 
 namespace NorthwindCore.Gui.Desktop.ViewModels
 {
@@ -151,8 +152,8 @@ namespace NorthwindCore.Gui.Desktop.ViewModels
         /// Checks if the notes is valid
         /// </summary>
         /// <param name="employee">The employee to check</param>
-        /// <returns>The notes without any profanity</returns>
-        public string ValidateNotes(Employee employee)
+        /// <returns>A bool which indicates if its valid and a list of errors</returns>
+        public (bool isValid, List<string> errors) ValidateNotes(Employee employee)
         {
             ValidationWebService validationWebService = new ValidationWebService();
             return validationWebService.ValidateNotes(employee.Notes);

@@ -40,9 +40,13 @@ namespace NorthwindCore.Gui.Desktop.CustomControls
                 MessageBox.Show("Telefon nummeret er et forkert format", "Northwind", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+            var notesValidation = hrUserControlViewModel.ValidateNotes(hrUserControlViewModel.SelectedEmployee);
+            if (!notesValidation.isValid)
+            {
+                MessageBox.Show($"Disse ord er ikke tilladte: {string.Join(", ", notesValidation.errors)}", "Northwind", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
-            hrUserControlViewModel.SelectedEmployee.Notes = hrUserControlViewModel.ValidateNotes(hrUserControlViewModel.SelectedEmployee);
-            textBoxNotes.Text = hrUserControlViewModel.SelectedEmployee.Notes;
             hrUserControlViewModel.UpdateEmployee(hrUserControlViewModel.SelectedEmployee);
 
             buttonEmployeeUpdate.Foreground = Brushes.Green;

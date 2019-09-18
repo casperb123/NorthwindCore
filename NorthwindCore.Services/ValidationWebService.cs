@@ -3,6 +3,7 @@ using NorthwindCore.Entities;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -44,10 +45,28 @@ namespace NorthwindCore.Services
             return JsonConvert.DeserializeObject<ValidationPhoneNumber>(GetJson(url).Result).valid;
         }
 
-        public string ValidateNotes(string notes)
+        public (bool isValid, List<string> errors) ValidateNotes(string notes)
         {
             string url = $"{validateNotesApi}?text={notes}";
-            return JsonConvert.DeserializeObject<ValidationNotes>(GetJson(url).Result).result;
+            //return JsonConvert.DeserializeObject<ValidationNotes>(GetJson(url).Result).result;
+            ValidationNotes validationNotes = JsonConvert.DeserializeObject<ValidationNotes>(GetJson(url).Result);
+
+            List<string> errors = new List<string>();
+            string[] input = notes.Split(' ');
+            string[] output = validationNotes.result.Split(' ');
+            for (int i = 0; i < input.Length; i++)
+            {
+                string dif = string.Join("", input[i].ToArray().Where(item => !output[i].Contains(item.ToString())).ToArray());
+                if (dif.Length > 0)
+                {
+                    errors.Add(dif);
+                }
+            }
+            if (errors.Count == 0)
+            {
+                return (true, errors);
+            }
+            return (false, errors);
         }
 
         public ICollection<ExchangeRate> GetRates(string url = null)
